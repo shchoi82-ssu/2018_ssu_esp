@@ -1,0 +1,10 @@
+all:
+	@echo SHELL = $(SHELL)
+	@echo CC = $(CC)
+	@echo LD = $(LD)
+	@echo AS = $(AS)
+	@echo AR = $(AR)
+	@echo PWD = $(PWD)
+	@echo HOME = $(HOME)
+	@echo CXX = $(CXX)
+

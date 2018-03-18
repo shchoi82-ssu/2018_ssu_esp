@@ -1,0 +1,23 @@
+OBJECTS = main.o choi.o kim.o lee.o
+TARGET = prog.out
+CC = gcc
+CFLAGS = -Wall -W
+
+$(TARGET) : $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
+
+main.o : main.c
+	$(CC) $(CFLAGS) -c main.c
+
+choi.o : choi.c
+	$(CC) $(CFLAGS) -c choi.c
+
+kim.o : kim.c
+	$(CC) $(CFLAGS) -c kim.c
+
+lee.o : lee.c
+	$(CC) $(CFLAGS) -c lee.c
+
+clean :
+	rm $(OBJECTS)
+	rm $(TARGET)
