@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main(void)
+int START()
 {
     int radius = 3;
     printf("radius:");
