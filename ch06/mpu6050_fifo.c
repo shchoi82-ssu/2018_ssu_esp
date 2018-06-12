@@ -31,30 +31,29 @@
 #define MPU6500_REG_INT_STATUS    0x3A
 
 #define FIFO_LADLE_SIZE		120
-//#define FIFO_LADLE_SIZE		30
 
 static int g_smplrt_div = 0;
 
 static int g_is_init = 0;
-static void sigint_handler(int arg);
 static int g_thread_stop_flag = 0;
 int g_overflow_detect = 0;
+
 
 static pthread_t tid2, tid1, tid3;
 
 static int bcm2835_ret;
 
+static void sigint_handler(int arg);
+
 /**********************************************
  * I2C 통신용 버퍼
  **********************************************/
 static uint8_t tbuf[2];
-//static uint8_t rbuf[256];
 static uint8_t rbuf[256];
 
 /**********************************************
  * 데이터
  **********************************************/
-//static struct timespec g_start_tick, g_end_tick;
 static char *g_accel_gyro_data;
 static uint64_t g_total_read;
 
@@ -107,14 +106,6 @@ long long to_nsec(struct timespec t)
 {
     long long nsec;
 
-    // overflow 가능성있는지 체크
-    // time_t 4byte max : 2147483647, min : -2147483648
-    // 2038년까지 표현 가능
-    // long long 타입으로 전부 담을수 있는지
-    // 584942419300 년까지 표현 가능
-    // 9223372036854775807까지 가능 사실상 overflow 불가능
-    // 1000000000LL을 곱하여도 214748364000000000 < 9223372036854775807
-    // tv_sec가 max여도 overflow 되지 않음
     nsec = t.tv_sec * 1000000000LL;
     nsec += t.tv_nsec;
 
@@ -184,23 +175,16 @@ static void* busy_reader_thread(void *arg)
 
         DBGMSGI("MPU6500_REG_FIFO_EN");
         tbuf[0] = MPU6500_REG_FIFO_EN;
-        //tbuf[1] = (uint8_t)0b00001000;
         tbuf[1] = (uint8_t)0b01111000;
         if(BCM2835_I2C_REASON_OK != bcm2835_i2c_write((const char*)tbuf, 2)){
             DBGMSGI("bcm2835_i2c_write error");
         }
 
-        // buffer full 
-        // 1초에 48000byte(6byte(accelometer value) * 8kHz)가 들어온다
-        // 512byte는 0.0106666666666667만에 채워짐 512/48000
         int16_t fifo_count;
         uint32_t offset = 0;
         uint8_t int_status;
 
         while(!g_thread_stop_flag){
-        	//usleep(1);
-			//nanosleep(1);
-
             /**********************************************
              * INT_STATUS 
              **********************************************/
@@ -211,7 +195,7 @@ static void* busy_reader_thread(void *arg)
             /**********************************************
              * fifo overflow check
              **********************************************/
-//            DBGMSGI(("int_status:%X", (uint8_t)int_status);
+//          DBGMSGI(("int_status:%X", (uint8_t)int_status);
             if((int_status & 0b00010000) != 0){
                 DBGMSG("fifo overflow!!!!\ttry recovery");
 
@@ -624,35 +608,11 @@ void mpu6500_release()
     }
     bcm2835_delay(50);
 
-/*
-    DBGMSGI("try tid1 stop\n");
-    g_thread_stop_flag = 1;
-    bcm2835_delay(10);
-    pthread_join(tid1, NULL);
-*/
-
     DBGMSGI("try tid2 stop");
     g_thread_stop_flag = 1;
 //    bcm2835_delay(10);
 //    pthread_join(tid2, NULL);
 
-/*
-    while(1){
-        g_thread_stop_flag = 1;
-        if(pthread_tryjoin_np(tid1, NULL) == 0)
-            break;
-        bcm2835_delay(1000);
-        DBGMSGI("waiting 1\n");
-    }
-
-    wcwinahile(1){
-        g_thread_stop_flag = 1;
-        if(pthread_tryjoin_np(tid2, NULL) == 0)
-            break;
-        bcm2835_delay(1000);
-        DBGMSGI("waiting 2\n");
-    }
-*/
 
     DBGMSGI("MPU6500_REG_PWR_MGMT_1 reset");
     tbuf[0] = MPU6500_REG_PWR_MGMT_1;
