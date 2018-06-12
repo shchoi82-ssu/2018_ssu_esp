@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*******************************************************************************
  * Copyright (c) 2012, 2017 IBM Corp.
  *
@@ -14,14 +15,22 @@
  *    Ian Craggs - initial contribution
  *******************************************************************************/
 
+=======
+>>>>>>> e01b6809832c0b5911783980143383872ca39038
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "MQTTClient.h"
 
+<<<<<<< HEAD
 #define ADDRESS     "tcp://172.30.1.18:1883"
 #define CLIENTID    "ExampleClientSub"
 #define TOPIC       "/robotcode"
+=======
+#define ADDRESS     "tcp://172.30.1.2:55555"
+#define CLIENTID    "ExampleClientSub"
+#define TOPIC       "/mytopic"
+>>>>>>> e01b6809832c0b5911783980143383872ca39038
 #define PAYLOAD     "Hello World!"
 #define QOS         1
 #define TIMEOUT     10000L
@@ -43,6 +52,10 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     printf("     topic: %s\n", topicName);
     printf("   message: ");
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e01b6809832c0b5911783980143383872ca39038
     payloadptr = message->payload;
     for(i=0; i<message->payloadlen; i++)
     {
@@ -72,6 +85,10 @@ int main(int argc, char* argv[])
     conn_opts.keepAliveInterval = 20;
     conn_opts.cleansession = 1;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e01b6809832c0b5911783980143383872ca39038
     MQTTClient_setCallbacks(client, NULL, connlost, msgarrvd, delivered);
 
     if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS)
@@ -83,7 +100,11 @@ int main(int argc, char* argv[])
            "Press Q<Enter> to quit\n\n", TOPIC, CLIENTID, QOS);
     MQTTClient_subscribe(client, TOPIC, QOS);
 
+<<<<<<< HEAD
     do 
+=======
+    do
+>>>>>>> e01b6809832c0b5911783980143383872ca39038
     {
         ch = getchar();
     } while(ch!='Q' && ch != 'q');
@@ -93,3 +114,7 @@ int main(int argc, char* argv[])
     MQTTClient_destroy(&client);
     return rc;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> e01b6809832c0b5911783980143383872ca39038

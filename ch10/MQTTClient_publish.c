@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*******************************************************************************
  * Copyright (c) 2012, 2017 IBM Corp.
  *
@@ -14,14 +15,22 @@
  *    Ian Craggs - initial contribution
  *******************************************************************************/
 
+=======
+>>>>>>> e01b6809832c0b5911783980143383872ca39038
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "MQTTClient.h"
 
+<<<<<<< HEAD
 #define ADDRESS     "tcp://172.30.1.18:1883"
 #define CLIENTID    "ExampleClientPub"
 #define TOPIC       "/robotcode"
+=======
+#define ADDRESS     "tcp://172.30.1.2:55555"
+#define CLIENTID    "ExampleClientPub"
+#define TOPIC       "/mytopic"
+>>>>>>> e01b6809832c0b5911783980143383872ca39038
 #define PAYLOAD     "pi로부터 메세지 전송"
 #define QOS         1
 #define TIMEOUT     10000L
@@ -44,6 +53,10 @@ int main(int argc, char* argv[])
         printf("Failed to connect, return code %d\n", rc);
         exit(EXIT_FAILURE);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> e01b6809832c0b5911783980143383872ca39038
     pubmsg.payload = PAYLOAD;
     pubmsg.payloadlen = strlen(PAYLOAD);
     pubmsg.qos = QOS;
@@ -58,3 +71,7 @@ int main(int argc, char* argv[])
     MQTTClient_destroy(&client);
     return rc;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> e01b6809832c0b5911783980143383872ca39038
